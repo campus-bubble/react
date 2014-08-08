@@ -861,6 +861,11 @@ var ReactCompositeComponentMixin = {
    * @protected
    */
   replaceState: function(completeState, callback) {
+    // CampusBubble: Do not replace state on unmounted components
+    if (!this.isMounted() && this._compositeLifeCycleState === null) {
+      return;
+    }
+
     validateLifeCycleOnReplaceState(this);
     this._pendingState = completeState;
     if (this._compositeLifeCycleState !== CompositeLifeCycle.MOUNTING) {
